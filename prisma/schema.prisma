@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Product {
+  id          String      @id
+  name        String
+  category    String
+  price       Float
+  oldPrice    Float?
+  image       String
+  badge       String
+  rating      Float
+  stock       Int
+  description String
+  details     String
+  colors      String
+  sizes       String
+  sku         String      @unique
+  active      Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  items       OrderItem[]
+  reviews     Review[]
+}
+
+model Coupon {
+  code        String   @id
+  type        String
+  value       Float
+  minSubtotal Float    @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String   @default("")
+  phone     String
+  cep       String   @default("")
+  street    String   @default("")
+  number    String   @default("")
+  city      String   @default("")
+  state     String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+}
+
+model Order {
+  id            String      @id
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  status        String      @default("Recebido")
+  customerId    String?
+  customerName  String
+  customerEmail String
+  customerPhone String
+  cep           String
+  street        String
+  number        String
+  city          String
+  state         String
+  delivery      String
+  payment       String
+  coupon        String      @default("")
+  subtotal      Float
+  discount      Float       @default(0)
+  shipping      Float       @default(0)
+  total         Float
+  customer      Customer?   @relation(fields: [customerId], references: [id])
+  items         OrderItem[]
+
+  @@index([customerId])
+  @@index([customerEmail])
+  @@index([status])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  name      String
+  size      String
+  color     String
+  quantity  Int
+  unitPrice Float
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Review {
+  id        String   @id
+  productId String
+  name      String
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
