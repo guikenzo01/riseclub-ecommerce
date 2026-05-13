@@ -469,7 +469,7 @@ export async function writeStore(store: StoreData) {
     await syncDatabaseOrders(store);
     await syncDatabaseReviews(store);
   } catch {
-    // Keep the JSON fallback working if the local database is unavailable.
+    // Mantem o fallback em JSON funcionando se o banco local estiver indisponivel.
   }
 }
 
