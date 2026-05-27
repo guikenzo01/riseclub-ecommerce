@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { addToCart } from "@/lib/cart";
+import { readAccount, readAdminSession } from "@/lib/auth";
 import type { Order } from "@/lib/orders";
 import { orderStatuses } from "@/lib/orders";
 import { findAnyProduct, formatCurrency } from "@/lib/products";
@@ -14,16 +15,35 @@ type OrderDetailClientProps = {
 
 export default function OrderDetailClient({ orderId }: OrderDetailClientProps) {
   const [order, setOrder] = useState<Order | undefined>();
+  const [access, setAccess] = useState<"loading" | "allowed" | "denied" | "guest">("loading");
   const [addedAgain, setAddedAgain] = useState(false);
 
   useEffect(() => {
     async function loadOrder() {
+      const adminSession = readAdminSession();
+      const account = readAccount();
+
+      if (!adminSession && !account) {
+        setAccess("guest");
+        return;
+      }
+
       const response = await fetch(`/api/orders/${orderId}`);
       if (!response.ok) {
         setOrder(undefined);
+        setAccess("allowed");
         return;
       }
-      setOrder(await response.json());
+      const data = await response.json() as Order;
+      const canView = Boolean(adminSession) || data.customer.email.toLowerCase() === account?.email.toLowerCase();
+
+      if (!canView) {
+        setAccess("denied");
+        return;
+      }
+
+      setOrder(data);
+      setAccess("allowed");
     }
     loadOrder();
   }, [orderId]);
@@ -40,6 +60,50 @@ export default function OrderDetailClient({ orderId }: OrderDetailClientProps) {
     }
     setAddedAgain(true);
     window.setTimeout(() => setAddedAgain(false), 2400);
+  }
+
+  if (access === "guest") {
+    return (
+      <main className="mx-auto max-w-7xl px-4 py-10 md:px-6">
+        <section className="rounded-lg border border-white/10 bg-white/[0.06] p-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">Acesso necessario</p>
+          <h1 className="mt-3 text-3xl font-black text-white">Entre para acompanhar pedidos.</h1>
+          <p className="mt-2 text-zinc-400">Voce precisa entrar com sua conta para consultar os detalhes do pedido.</p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link href="/login" className="focus-ring rounded-lg bg-amber-300 px-5 py-3 text-sm font-black text-zinc-950 hover:bg-amber-200">
+              Entrar
+            </Link>
+            <Link href="/cadastro" className="focus-ring rounded-lg border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-zinc-100 hover:bg-white/10">
+              Criar conta
+            </Link>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  if (access === "denied") {
+    return (
+      <main className="mx-auto max-w-7xl px-4 py-10 md:px-6">
+        <Link href="/pedidos" className="text-sm font-semibold text-amber-300 hover:text-amber-200">
+          Voltar para pedidos
+        </Link>
+        <section className="mt-8 rounded-lg border border-white/10 bg-white/[0.06] p-6">
+          <h1 className="text-3xl font-black text-white">Pedido restrito</h1>
+          <p className="mt-2 text-zinc-400">Esse pedido pertence a outra conta. Entre com o usuario correto ou acesse como administrador.</p>
+        </section>
+      </main>
+    );
+  }
+
+  if (access === "loading") {
+    return (
+      <main className="mx-auto max-w-7xl px-4 py-10 md:px-6">
+        <section className="rounded-lg border border-white/10 bg-white/[0.06] p-6 text-zinc-300">
+          Carregando pedido...
+        </section>
+      </main>
+    );
   }
 
   if (!order) {

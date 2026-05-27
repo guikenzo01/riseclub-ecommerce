@@ -2,8 +2,15 @@ import { NextResponse } from "next/server";
 import type { Order } from "@/lib/orders";
 import { calculateOrderTotals, decrementProductStock, readStore, validateStock, writeStore } from "@/server/store";
 
-export async function GET() {
+export async function GET(request: Request) {
   const store = await readStore();
+  const { searchParams } = new URL(request.url);
+  const email = searchParams.get("email")?.trim().toLowerCase();
+
+  if (email) {
+    return NextResponse.json(store.orders.filter((order) => order.customer.email.toLowerCase() === email));
+  }
+
   return NextResponse.json(store.orders);
 }
 
@@ -22,7 +29,7 @@ export async function POST(request: Request) {
     ...data,
     id: `RC-${Date.now().toString().slice(-6)}`,
     createdAt: new Date().toISOString(),
-    status: "Recebido",
+    status: "Pedido criado",
     ...totals
   };
 

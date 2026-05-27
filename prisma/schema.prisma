@@ -58,7 +58,7 @@ model Order {
   id            String      @id
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
-  status        String      @default("Recebido")
+  status        String      @default("Pedido criado")
   customerId    String?
   customerName  String
   customerEmail String

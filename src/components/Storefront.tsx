@@ -101,22 +101,22 @@ export default function Storefront() {
             </div>
           </div>
 
-          <div className="self-end rounded-lg border border-white/10 bg-zinc-950/72 p-5 shadow-2xl backdrop-blur">
+          <div className="self-end rounded-lg border border-amber-300/25 bg-zinc-950 p-5 shadow-2xl shadow-black/60">
             <div className="grid grid-cols-3 gap-3 text-center">
-              <div>
+              <div className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-4">
                 <p className="text-3xl font-black text-amber-300">{products.length}</p>
-                <p className="text-xs text-zinc-400">produtos ativos</p>
+                <p className="mt-1 text-xs font-medium text-zinc-200">produtos ativos</p>
               </div>
-              <div>
+              <div className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-4">
                 <p className="text-3xl font-black text-amber-300">{stats.stock}</p>
-                <p className="text-xs text-zinc-400">itens em estoque</p>
+                <p className="mt-1 text-xs font-medium text-zinc-200">itens em estoque</p>
               </div>
-              <div>
+              <div className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-4">
                 <p className="text-3xl font-black text-amber-300">{stats.averageRating.toFixed(1)}</p>
-                <p className="text-xs text-zinc-400">avaliacao media</p>
+                <p className="mt-1 text-xs font-medium text-zinc-200">avaliacao media</p>
               </div>
             </div>
-            <div className="mt-5 rounded-lg bg-amber-300/10 p-4 text-sm text-amber-100">
+            <div className="mt-5 rounded-lg border border-amber-300/30 bg-amber-300 px-4 py-4 text-sm font-semibold text-zinc-950">
               Use o cupom <strong>RISE10</strong> no checkout para simular 10% de desconto.
             </div>
           </div>

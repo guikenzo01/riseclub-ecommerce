@@ -285,7 +285,7 @@ Quando o pedido e finalizado, o sistema:
 3. gera um numero de pedido;
 4. salva o pedido no banco;
 5. reduz o estoque dos produtos comprados;
-6. cria o status inicial como `Recebido`.
+6. cria o status inicial como `Pedido criado`.
 
 O numero do pedido segue um formato simples, por exemplo:
 
@@ -443,4 +443,3 @@ O projeto foi criado com **Next.js, React, TypeScript, Tailwind CSS, Prisma e SQ
 Ele nao e apenas um site estatico em HTML, CSS e JavaScript puro. Ele e uma aplicacao web completa, com frontend, backend, banco de dados, cadastro, login, carrinho, pedidos, estoque e painel administrativo.
 
 O sistema funciona como um MVP de e-commerce para a Rise Club, focado na venda de produtos do grupo e retirada nos treinos.
-

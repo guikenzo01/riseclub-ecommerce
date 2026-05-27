@@ -49,6 +49,7 @@ export default function AdminClient() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [customers, setCustomers] = useState<CustomerAccount[]>([]);
   const [form, setForm] = useState(blankProduct);
+  const [editingProductId, setEditingProductId] = useState("");
   const [couponForm, setCouponForm] = useState(blankCoupon);
 
   useEffect(() => {
@@ -102,7 +103,7 @@ export default function AdminClient() {
   const totalStock = allProducts.reduce((total, product) => total + product.stock, 0);
   const totalValue = allProducts.reduce((total, product) => total + product.stock * product.price, 0);
   const revenue = orders.reduce((total, order) => total + order.total, 0);
-  const openOrders = orders.filter((order) => order.status !== "Entregue").length;
+  const openOrders = orders.filter((order) => order.status !== "Retirado").length;
   const lowStock = allProducts.filter((product) => product.stock <= 10);
   const soldRanking = useMemo(() => {
     const soldByProduct = new Map<string, number>();
@@ -145,7 +146,8 @@ export default function AdminClient() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const id = slugify(form.name || `produto-${Date.now()}`);
+    const currentProduct = allProducts.find((item) => item.id === editingProductId);
+    const id = editingProductId || slugify(form.name || `produto-${Date.now()}`);
     const product: Product = {
       id,
       name: form.name,
@@ -154,22 +156,47 @@ export default function AdminClient() {
       oldPrice: form.oldPrice ? Number(form.oldPrice) : undefined,
       image: form.image,
       badge: form.badge,
-      rating: 4.8,
+      rating: currentProduct?.rating || 4.8,
       stock: Number(form.stock),
       description: form.description,
       colors: form.colors.split(",").map((item) => item.trim()).filter(Boolean),
       sizes: form.sizes.split(",").map((item) => item.trim()).filter(Boolean),
       details: form.details.split(",").map((item) => item.trim()).filter(Boolean),
-      sku: `RC-${id.slice(0, 8).toUpperCase()}`,
+      sku: currentProduct?.sku || `RC-${id.slice(0, 8).toUpperCase()}`,
       active: form.active
     };
 
-    await fetch("/api/products", {
-      method: "POST",
+    await fetch(editingProductId ? `/api/products/${editingProductId}` : "/api/products", {
+      method: editingProductId ? "PATCH" : "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(product)
     });
     await refreshProductsFromApi();
+    setForm(blankProduct);
+    setEditingProductId("");
+  }
+
+  function editProduct(product: Product) {
+    setEditingProductId(product.id);
+    setForm({
+      name: product.name,
+      category: product.category,
+      price: String(product.price),
+      oldPrice: product.oldPrice ? String(product.oldPrice) : "",
+      image: product.image,
+      badge: product.badge,
+      stock: String(product.stock),
+      description: product.description,
+      colors: product.colors.join(", "),
+      sizes: product.sizes.join(", "),
+      details: product.details.join(", "),
+      active: product.active
+    });
+    window.scrollTo({ top: 520, behavior: "smooth" });
+  }
+
+  function cancelProductEdit() {
+    setEditingProductId("");
     setForm(blankProduct);
   }
 
@@ -322,7 +349,17 @@ export default function AdminClient() {
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[420px_1fr]">
         <form onSubmit={handleSubmit} className="h-fit rounded-lg border border-white/10 bg-zinc-950/75 p-5">
-          <h2 className="text-xl font-black text-white">Novo produto</h2>
+          <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+            <div>
+              <h2 className="text-xl font-black text-white">{editingProductId ? "Editar produto" : "Novo produto"}</h2>
+              {editingProductId && <p className="mt-1 text-xs text-zinc-500">Editando: {editingProductId}</p>}
+            </div>
+            {editingProductId && (
+              <button type="button" onClick={cancelProductEdit} className="focus-ring rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-white/10">
+                Cancelar
+              </button>
+            )}
+          </div>
           <div className="mt-4 grid gap-3">
             <input required className="focus-ring rounded-lg border border-white/10 bg-zinc-950 px-3 py-3 text-white" placeholder="Nome" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} />
             <select className="focus-ring rounded-lg border border-white/10 bg-zinc-950 px-3 py-3 text-white" value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })}>
@@ -341,8 +378,17 @@ export default function AdminClient() {
             <input className="focus-ring rounded-lg border border-white/10 bg-zinc-950 px-3 py-3 text-white" placeholder="Cores separadas por virgula" value={form.colors} onChange={(event) => setForm({ ...form, colors: event.target.value })} />
             <input className="focus-ring rounded-lg border border-white/10 bg-zinc-950 px-3 py-3 text-white" placeholder="Tamanhos separados por virgula" value={form.sizes} onChange={(event) => setForm({ ...form, sizes: event.target.value })} />
             <input className="focus-ring rounded-lg border border-white/10 bg-zinc-950 px-3 py-3 text-white" placeholder="Detalhes separados por virgula" value={form.details} onChange={(event) => setForm({ ...form, details: event.target.value })} />
+            <label className="flex items-center gap-3 rounded-lg border border-white/10 bg-zinc-950 px-3 py-3 text-sm font-semibold text-zinc-200">
+              <input
+                type="checkbox"
+                className="h-4 w-4 accent-amber-300"
+                checked={form.active}
+                onChange={(event) => setForm({ ...form, active: event.target.checked })}
+              />
+              Produto ativo na loja
+            </label>
             <button className="focus-ring min-h-12 rounded-lg bg-amber-300 px-5 text-sm font-black text-zinc-950 hover:bg-amber-200">
-              Salvar produto
+              {editingProductId ? "Salvar alteracoes" : "Salvar produto"}
             </button>
           </div>
         </form>
@@ -478,6 +524,9 @@ export default function AdminClient() {
                       </span>
                       {isCustom ? (
                         <>
+                          <button className="focus-ring rounded-lg border border-amber-300/40 px-3 py-2 text-sm font-semibold text-amber-100" onClick={() => editProduct(product)}>
+                            Editar
+                          </button>
                           <button className="focus-ring rounded-lg border border-white/10 px-3 py-2 text-sm text-zinc-200" onClick={() => toggleProduct(product.id)}>
                             Alternar
                           </button>

@@ -16,10 +16,12 @@ export type Address = {
   state: string;
 };
 
+export type OrderStatus = "Pedido criado" | "Separando" | "Pronto para retirada" | "Retirado";
+
 export type Order = {
   id: string;
   createdAt: string;
-  status: "Recebido" | "Separando" | "Entregue";
+  status: OrderStatus;
   items: CartItem[];
   customer: Customer;
   address: Address;
@@ -33,14 +35,24 @@ export type Order = {
 };
 
 const ORDER_KEY = "riseclub-orders";
-export const orderStatuses: Order["status"][] = ["Recebido", "Separando", "Entregue"];
+export const orderStatuses: OrderStatus[] = ["Pedido criado", "Separando", "Pronto para retirada", "Retirado"];
+
+export function normalizeOrderStatus(status: string): OrderStatus {
+  if (status === "Recebido") return "Pedido criado";
+  if (status === "Entregue") return "Retirado";
+  if (status === "Pronto para retirada") return "Pronto para retirada";
+  if (status === "Separando") return "Separando";
+  return "Pedido criado";
+}
 
 export function readOrders(): Order[] {
   if (typeof window === "undefined") return [];
 
   try {
     const parsed = JSON.parse(window.localStorage.getItem(ORDER_KEY) || "[]");
-    return Array.isArray(parsed) ? parsed : [];
+    return Array.isArray(parsed)
+      ? parsed.map((order) => ({ ...order, status: normalizeOrderStatus(order.status) }))
+      : [];
   } catch {
     return [];
   }
@@ -58,7 +70,7 @@ export function createOrder(data: Omit<Order, "id" | "createdAt" | "status" | "s
     ...data,
     id: `RC-${Date.now().toString().slice(-6)}`,
     createdAt: new Date().toISOString(),
-    status: "Recebido",
+    status: "Pedido criado",
     subtotal: summary.subtotal,
     discount: summary.discount,
     shipping: pickup ? 0 : summary.shipping,

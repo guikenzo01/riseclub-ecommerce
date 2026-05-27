@@ -4,7 +4,7 @@ import type { CartItem } from "@/lib/cart";
 import type { Coupon } from "@/lib/coupons";
 import { defaultCoupons } from "@/lib/coupons";
 import type { CustomerAccount } from "@/lib/auth";
-import type { Order } from "@/lib/orders";
+import { normalizeOrderStatus, type Order } from "@/lib/orders";
 import type { Product } from "@/lib/products";
 import { defaultProducts } from "@/lib/products";
 import type { Review } from "@/lib/reviews";
@@ -77,7 +77,7 @@ function mapDbOrder(order: DbOrder): Order {
   return {
     id: order.id,
     createdAt: order.createdAt.toISOString(),
-    status: order.status as Order["status"],
+    status: normalizeOrderStatus(order.status),
     items: order.items.map((item) => ({
       productId: item.productId,
       quantity: item.quantity,
@@ -141,7 +141,7 @@ async function readJsonStore(): Promise<StoreData> {
     return {
       products: parsed.products || defaultProducts,
       coupons: parsed.coupons || defaultCoupons,
-      orders: parsed.orders || [],
+      orders: (parsed.orders || []).map((order: Order) => ({ ...order, status: normalizeOrderStatus(order.status) })),
       reviews: parsed.reviews || [],
       customers: parsed.customers || []
     };
