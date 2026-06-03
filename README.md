@@ -1,61 +1,177 @@
-# Rise Club Store
+# Rise Club E-commerce
 
-Prototipo avancado de e-commerce para a Rise Club, criado a partir do site do grupo de corrida e das oportunidades do projeto academico.
+MVP de e-commerce desenvolvido para a Rise Club, grupo de corrida, com foco na venda de produtos oficiais e retirada combinada nos treinos/corres.
 
-## Rodar localmente
+O projeto foi criado para entrega academica como um sistema de informacao funcional, com fluxo de cliente, fluxo de administrador, carrinho, pedidos, controle de estoque, banco de dados e painel administrativo.
+
+## Tecnologias usadas
+
+Este projeto nao foi feito apenas com HTML, CSS e JavaScript puro. Ele usa uma estrutura full stack com:
+
+- **Next.js 14**: framework principal do projeto.
+- **React**: criacao das telas e componentes.
+- **TypeScript**: JavaScript tipado para reduzir erros.
+- **Tailwind CSS**: estilização da interface.
+- **Prisma**: conexao e modelagem do banco de dados.
+- **SQLite**: banco local usado no MVP.
+
+## Front-end e back-end
+
+O projeto tem front-end e back-end no mesmo repositório.
+
+**Front-end**
+
+Fica principalmente em:
+
+```text
+src/app
+src/components
+```
+
+Inclui as telas da loja, login, cadastro, produto, carrinho, checkout, pedidos e admin.
+
+**Back-end**
+
+Fica em:
+
+```text
+src/app/api
+src/server
+```
+
+Inclui as APIs de produtos, clientes, login, pedidos, cupons e avaliacoes.
+
+**Banco de dados**
+
+Fica configurado em:
+
+```text
+prisma/schema.prisma
+prisma.config.ts
+```
+
+O banco usado no MVP e SQLite com Prisma.
+
+## Como rodar o projeto
+
+Dentro da pasta do projeto:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Abra `http://localhost:3000`.
+Depois acesse:
 
-## Paginas
+```text
+http://localhost:3000
+```
 
-- `/` - vitrine com busca, filtros e compra rapida.
-- `/produto/[id]` - pagina de detalhe com tamanho, cor, quantidade e avaliacoes.
-- `/checkout` - carrinho, dados do cliente, Pix simulado, retirada no treino e pedido.
-- `/login` - login unico que diferencia cliente e administrador.
-- `/cadastro` - cadastro e edicao dos dados do cliente.
+## Banco de dados
+
+Para preparar o banco local:
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+Para popular com dados iniciais:
+
+```bash
+npm run db:seed
+```
+
+Para abrir o painel visual do banco:
+
+```bash
+npm run db:studio
+```
+
+O arquivo `.env.example` mostra a variavel usada:
+
+```text
+DATABASE_URL="file:./dev.db"
+```
+
+## Paginas principais
+
+- `/` - vitrine com busca, filtro por categoria, filtro por tamanho e compra rapida.
+- `/produto/[id]` - detalhe do produto com imagem, preco, tamanho, cor, quantidade e avaliacoes.
+- `/checkout` - carrinho, cupom, resumo, retirada nos treinos/corres, Pix simulado e confirmacao do pedido.
+- `/login` - login unico para cliente e administrador.
+- `/cadastro` - cadastro de cliente com senha e validacao de e-mail duplicado.
 - `/recuperar-senha` - recuperacao simples por e-mail e WhatsApp.
-- `/conta` - perfil local do cliente.
-- `/pedidos` - historico local de pedidos.
-- `/pedidos/[id]` - detalhe do pedido, recibo, acompanhamento e recompra.
-- `/admin` - painel para produtos, cupons, pedidos, estoque, ranking e avaliacoes.
-- `/treinos`, `/sobre`, `/participar` - paginas institucionais da Rise.
+- `/conta` - area da conta do cliente.
+- `/pedidos` - pedidos da conta logada; admin visualiza todos.
+- `/pedidos/[id]` - detalhe, recibo e acompanhamento do pedido.
+- `/admin` - painel administrativo.
+- `/treinos`, `/sobre`, `/participar` - paginas institucionais da Rise Club.
 
-## Recursos prontos
+## Funcionalidades do usuario comum
 
-- Backend local em rotas `/api/*` com persistencia principal em SQLite pelo Prisma.
-- Clientes salvos no backend por `/api/customers`.
-- Login simples separado entre cliente e administrador.
-- Area administrativa restrita por sessao simples de admin.
-- Catalogo com produtos base e produtos cadastrados no admin.
-- Carrinho persistente no navegador.
-- Cupons dinamicos com percentual, valor fixo, minimo de compra e status ativo/inativo.
-- Retirada dos pedidos nos treinos da Rise Club.
-- Pagamento por Pix simulado no checkout.
-- Geracao de pedidos com baixa de estoque.
-- Validacao de estoque no servidor antes de criar pedido.
-- Painel administrativo local.
-- Mini CRM no admin com clientes, pedidos, contato e total comprado.
-- Conta local do cliente com preenchimento automatico do checkout.
-- Avaliacoes por produto com media dinamica e painel no admin.
+- Cadastro com nome, e-mail, WhatsApp e senha.
+- Validacao de senha com minimo de 5 caracteres.
+- Bloqueio de e-mail duplicado.
+- Login com e-mail e senha.
+- Listagem de produtos com nome, preco e imagem.
+- Filtro por categoria e tamanho.
+- Tela de detalhe do produto.
+- Escolha de tamanho, cor e quantidade.
+- Carrinho com adicionar, remover e alterar quantidade.
+- Calculo de subtotal, desconto e total.
+- Cupom de desconto.
+- Retirada combinada nos treinos/corres da Rise Club.
+- Pix simulado.
+- Geracao de numero de pedido.
+- Consulta de status do pedido.
+- Acesso restrito aos proprios pedidos.
+
+## Funcionalidades do administrador
+
+- Login usando a mesma tela de login.
+- Aba `Admin` disponivel no menu quando o admin esta logado.
+- Cadastro de produtos.
+- Edicao de produtos pelo catalogo.
+- Ativar/inativar produtos.
+- Remover produtos.
+- Controle de estoque.
+- Visualizacao de pedidos.
+- Alteracao de status dos pedidos.
+- Visualizacao de clientes.
+- Gerenciamento de cupons.
+- Visualizacao de avaliacoes.
+- Indicadores de faturamento, pedidos abertos, produtos ativos e clientes.
+
+## Status dos pedidos
+
+Os status foram definidos para evitar confusao com entrega/retirada:
+
+- `Pedido criado`
+- `Separando`
+- `Pronto para retirada`
+- `Retirado`
+
+Assim, um pedido novo nao aparece como se ja tivesse sido entregue.
 
 ## Acessos do MVP
 
-Cliente:
-- Use `/cadastro` para criar conta com nome, e-mail, telefone e senha.
-- A senha do cliente precisa ter pelo menos 5 caracteres.
-- Use `/login` para entrar com e-mail e senha.
-- Use `/recuperar-senha` para redefinir a senha com e-mail e WhatsApp cadastrados.
+**Cliente**
 
-Administrador:
-- Use `/login` com as credenciais de admin.
-- E-mail: `admin@riseclub.com`
-- Senha: `rise123`
-- O sistema redireciona automaticamente para `/admin`.
+Use `/cadastro` para criar uma conta.
+
+Depois use `/login` com e-mail e senha.
+
+**Administrador**
+
+Use `/login` com:
+
+```text
+E-mail: admin@riseclub.com
+Senha: rise123
+```
+
+Depois do login, a aba `Admin` fica disponivel no menu.
 
 ## APIs locais
 
@@ -65,29 +181,39 @@ Administrador:
 - `GET/PATCH /api/orders/[id]`
 - `GET/POST /api/coupons`
 - `PATCH/DELETE /api/coupons/[code]`
-- `GET/POST /api/reviews`
 - `GET/POST /api/customers`
 - `GET/PATCH /api/customers/[email]`
+- `POST /api/auth/customer`
+- `POST /api/auth/recover`
+- `GET/POST /api/reviews`
 
-## Banco de dados
+## Estrutura resumida
 
-O projeto ja tem schema Prisma com SQLite em `prisma/schema.prisma`.
-
-Para ativar o banco real:
-
-```bash
-npm install prisma @prisma/client
-npx prisma generate
-npx prisma db push
-npm run db:seed
+```text
+riseclub-ecommerce
+├── prisma
+│   └── schema.prisma
+├── public
+│   ├── gallery
+│   └── logo
+├── src
+│   ├── app
+│   ├── components
+│   ├── lib
+│   └── server
+├── package.json
+└── README.md
 ```
 
-Depois, use `npm run db:studio` para abrir o painel visual do banco.
+## Observacoes
 
-Produtos, cupons, pedidos, clientes e avaliacoes ja estao conectados ao SQLite pelo Prisma. O JSON local permanece apenas como fallback de desenvolvimento.
+Este projeto e um MVP academico. Algumas partes sao simuladas:
 
-Na versao 7 do Prisma, a URL do banco fica em `prisma.config.ts`.
+- Pix simulado.
+- Login administrativo simples.
+- Senhas sem criptografia real.
+- Sem upload real de imagens.
+- Sem integracao com gateway de pagamento.
+- Sem deploy de producao configurado.
 
-## Observacao
-
-Este backend ja usa SQLite/Prisma nas principais entidades. Para producao, os proximos passos sao autenticacao real, pagamentos, upload de imagens e deploy.
+Mesmo assim, o sistema possui front-end, back-end, banco de dados, rotas de API, regras de estoque, pedidos, carrinho e painel administrativo funcionando localmente.
