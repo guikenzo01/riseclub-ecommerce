@@ -9,7 +9,7 @@
       "image": "/gallery/02.jpg",
       "badge": "Mais vendida",
       "rating": 4.9,
-      "stock": 17,
+      "stock": 14,
       "description": "Camiseta leve para treinos, provas e encontros da comunidade Rise Club.",
       "details": [
         "Tecido dry fit",
@@ -38,7 +38,7 @@
       "image": "/gallery/03.jpg",
       "badge": "Novo",
       "rating": 4.8,
-      "stock": 12,
+      "stock": 11,
       "description": "Regata respiravel pensada para longoes e treinos de intensidade.",
       "details": [
         "Recorte esportivo",
@@ -65,7 +65,7 @@
       "image": "/gallery/09.jpg",
       "badge": "Essencial",
       "rating": 4.7,
-      "stock": 24,
+      "stock": 20,
       "description": "Bone ajustavel para proteger do sol sem pesar no treino.",
       "details": [
         "Aba curva",
@@ -91,7 +91,7 @@
       "image": "/gallery/12.jpg",
       "badge": "10% off",
       "rating": 4.6,
-      "stock": 30,
+      "stock": 27,
       "description": "Meia cano medio com conforto para rodagem e provas curtas.",
       "details": [
         "Cano medio",
@@ -117,7 +117,7 @@
       "image": "/gallery/06.jpg",
       "badge": "Treino",
       "rating": 4.8,
-      "stock": 16,
+      "stock": 15,
       "description": "Garrafa pratica para treinos na semana e encontros de fim de semana.",
       "details": [
         "650ml",
@@ -170,17 +170,243 @@
       "value": 10,
       "minSubtotal": 0,
       "active": true
-    },
-    {
-      "code": "FRETEOFF",
-      "type": "fixed",
-      "value": 18.9,
-      "minSubtotal": 120,
-      "active": true
     }
   ],
   "orders": [
     {
+      "id": "RC-723004",
+      "createdAt": "2026-06-03T01:05:23.004Z",
+      "status": "Pedido criado",
+      "items": [
+        {
+          "productId": "camiseta-race-day",
+          "quantity": 2,
+          "size": "M",
+          "color": "Preto"
+        },
+        {
+          "productId": "meia-performance",
+          "quantity": 3,
+          "size": "39-43",
+          "color": "Preto"
+        }
+      ],
+      "customer": {
+        "name": "Guilherme",
+        "email": "gui@gmail.com",
+        "phone": "11977454251"
+      },
+      "address": {
+        "cep": "",
+        "street": "Retirada no treino",
+        "number": "",
+        "city": "Sao Paulo",
+        "state": "SP"
+      },
+      "delivery": "Retirada no treino",
+      "payment": "Pix simulado",
+      "coupon": "RISE10",
+      "subtotal": 299.5,
+      "discount": 29.950000000000003,
+      "shipping": 0,
+      "total": 269.55
+    },
+    {
+      "id": "RC-160649",
+      "createdAt": "2026-06-03T00:22:40.649Z",
+      "status": "Pedido criado",
+      "items": [
+        {
+          "productId": "regata-pace",
+          "quantity": 1,
+          "size": "M",
+          "color": "Cinza"
+        }
+      ],
+      "customer": {
+        "name": "Guilherme",
+        "email": "gui@gmail.com",
+        "phone": "11977454251"
+      },
+      "address": {
+        "cep": "",
+        "street": "Retirada no treino",
+        "number": "",
+        "city": "Sao Paulo",
+        "state": "SP"
+      },
+      "delivery": "Retirada no treino",
+      "payment": "Pix simulado",
+      "coupon": "RISE10",
+      "subtotal": 79.9,
+      "discount": 7.990000000000001,
+      "shipping": 0,
+      "total": 71.91000000000001
+    },
+    {
+      "id": "RC-569032",
+      "createdAt": "2026-05-27T03:12:49.032Z",
+      "status": "Pedido criado",
+      "items": [
+        {
+          "productId": "bone-rise",
+          "quantity": 1,
+          "size": "Unico",
+          "color": "Preto"
+        }
+      ],
+      "customer": {
+        "name": "Guilherme",
+        "email": "gui@gmail.com",
+        "phone": "11977454251"
+      },
+      "address": {
+        "cep": "",
+        "street": "Retirada no treino",
+        "number": "",
+        "city": "Sao Paulo",
+        "state": "SP"
+      },
+      "delivery": "Retirada no treino",
+      "payment": "Pix simulado",
+      "coupon": "",
+      "subtotal": 69.9,
+      "discount": 0,
+      "shipping": 0,
+      "total": 69.9
+    },
+    {
+      "id": "RC-258305",
+      "createdAt": "2026-05-27T03:07:38.305Z",
+      "status": "Separando",
+      "items": [
+        {
+          "productId": "garrafa-hydra",
+          "quantity": 1,
+          "size": "Unico",
+          "color": "Preto"
+        }
+      ],
+      "customer": {
+        "name": "Guilherme",
+        "email": "gui@gmail.com",
+        "phone": "11977454251"
+      },
+      "address": {
+        "cep": "",
+        "street": "Retirada no treino",
+        "number": "",
+        "city": "Sao Paulo",
+        "state": "SP"
+      },
+      "delivery": "Retirada no treino",
+      "payment": "Pix simulado",
+      "coupon": "",
+      "subtotal": 54.9,
+      "discount": 0,
+      "shipping": 0,
+      "total": 54.9
+    },
+    {
+      "id": "RC-970278",
+      "createdAt": "2026-05-27T03:02:50.278Z",
+      "status": "Pedido criado",
+      "items": [
+        {
+          "productId": "camiseta-race-day",
+          "quantity": 1,
+          "size": "P",
+          "color": "Preto"
+        }
+      ],
+      "customer": {
+        "name": "Gui",
+        "email": "guilherme@gmail.com",
+        "phone": "11912345678"
+      },
+      "address": {
+        "cep": "",
+        "street": "Retirada no treino",
+        "number": "",
+        "city": "Sao Paulo",
+        "state": "SP"
+      },
+      "delivery": "Retirada no treino",
+      "payment": "Pix simulado",
+      "coupon": "",
+      "subtotal": 89.9,
+      "discount": 0,
+      "shipping": 0,
+      "total": 89.9
+    },
+    {
+      "id": "RC-721575",
+      "createdAt": "2026-05-14T01:05:21.575Z",
+      "status": "Pedido criado",
+      "items": [
+        {
+          "productId": "bone-rise",
+          "quantity": 2,
+          "size": "Unico",
+          "color": "Preto"
+        }
+      ],
+      "customer": {
+        "name": "Guilherme",
+        "email": "gui@gmail.com",
+        "phone": "11977454251"
+      },
+      "address": {
+        "cep": "",
+        "street": "Retirada no treino",
+        "number": "",
+        "city": "Sao Paulo",
+        "state": "SP"
+      },
+      "delivery": "Retirada no treino",
+      "payment": "Pix simulado",
+      "coupon": "RISE10",
+      "subtotal": 139.8,
+      "discount": 13.980000000000002,
+      "shipping": 0,
+      "total": 125.82000000000001
+    },
+    {
+      "id": "RC-684555",
+      "createdAt": "2026-05-13T23:08:04.555Z",
+      "status": "Separando",
+      "items": [
+        {
+          "productId": "bone-rise",
+          "quantity": 1,
+          "size": "Unico",
+          "color": "Preto"
+        }
+      ],
+      "customer": {
+        "name": "Guilherme",
+        "email": "gui@gmail.com",
+        "phone": "11977454251"
+      },
+      "address": {
+        "cep": "",
+        "street": "Retirada no treino",
+        "number": "",
+        "city": "Sao Paulo",
+        "state": "SP"
+      },
+      "delivery": "Retirada no treino",
+      "payment": "Pix simulado",
+      "coupon": "RISE10",
+      "subtotal": 69.9,
+      "discount": 6.990000000000001,
+      "shipping": 0,
+      "total": 62.910000000000004
+    },
+    {
+      "id": "RC-067509",
+      "createdAt": "2026-05-07T03:04:27.509Z",
+      "status": "Pedido criado",
       "items": [
         {
           "productId": "kit-primeiro-corre",
@@ -204,9 +430,6 @@
       "delivery": "Retirada no treino",
       "payment": "Pix simulado",
       "coupon": "RISE10",
-      "id": "RC-067509",
-      "createdAt": "2026-05-07T03:04:27.509Z",
-      "status": "Recebido",
       "subtotal": 149.9,
       "discount": 14.990000000000002,
       "shipping": 0,
@@ -215,7 +438,7 @@
     {
       "id": "RC-860787",
       "createdAt": "2026-05-07T02:44:20.787Z",
-      "status": "Recebido",
+      "status": "Pedido criado",
       "items": [
         {
           "productId": "camiseta-race-day",
@@ -247,7 +470,7 @@
     {
       "id": "RC-604520",
       "createdAt": "2026-05-07T02:23:24.520Z",
-      "status": "Separando",
+      "status": "Pedido criado",
       "items": [
         {
           "productId": "meia-performance",
@@ -279,6 +502,34 @@
   ],
   "reviews": [],
   "customers": [
+    {
+      "name": "Gui",
+      "email": "guilherme@gmail.com",
+      "password": "",
+      "phone": "11912345678",
+      "address": {
+        "cep": "",
+        "street": "Retirada no treino",
+        "number": "",
+        "city": "Sao Paulo",
+        "state": "SP"
+      },
+      "createdAt": "2026-05-27T03:02:49.839Z"
+    },
+    {
+      "name": "sasuke uchiha",
+      "email": "sasuke@gmail.com",
+      "password": "sasuke123",
+      "phone": "1196666666",
+      "address": {
+        "cep": "",
+        "street": "Retirada no treino",
+        "number": "",
+        "city": "Sao Paulo",
+        "state": "SP"
+      },
+      "createdAt": "2026-05-13T23:43:43.247Z"
+    },
     {
       "name": "Guilherme",
       "email": "gui@gmail.com",
